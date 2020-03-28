@@ -35,6 +35,11 @@ namespace Library
             //connecting to the sequel database that we're working with :
             services.AddDbContext<LibraryContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString("LibraryConnection")));
+            //JSON, to ignore null values:
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +56,7 @@ namespace Library
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
